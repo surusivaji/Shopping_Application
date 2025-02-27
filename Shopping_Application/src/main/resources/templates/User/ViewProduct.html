@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="User/Base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title>E-Shopping Application</title>
+</head>
+<body>
+	<section>
+		<div class="container" style="margin-top: 70px">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-head p-3">
+							<h3 class="text-center fw-bold fs-3">Product Details</h3>
+						</div>
+						<div class="card-body">
+							<!-- alert message starts  -->
+							<div class="alert alert-success" th:if="${session.successMsg}">
+								<p class="text-center fw-bold">[[${session.successMsg}]]✌️✌️✌️✌️</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-danger" th:if="${session.failMsg}">
+								<p class="text-center fw-bold">[[${session.failMsg}]]👎👎👎</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<!-- alert message ends -->
+							<div class="row d-flex justify-content-around">
+								<div class="col-md-6 text-end">
+									<img th:src="@{'/images/product/'+${product.image}}" alt="" width="320px" height="420px"/>
+								</div>
+								<div class="col-md-6">
+									<h3 class="fs-3" th:text="${product.title}"></h3>
+									<p>
+										<span class="fw-bold">Description:</span>
+										<br />
+										<span th:text="${product.description}"></span>
+									</p>
+									<p>
+										<span class="fw-bold">Product Details: </span>
+										<br />
+										Status:
+										<th:block th:if="${product.stock<=0}">
+											<span class="badge bg-warning">Out of stock</span>
+										</th:block>
+										<th:block th:if="${product.stock>0}">
+											<span class="badge bg-success">Avaliable</span>
+										</th:block>
+										<br />
+										Category: <span th:text="${product.category}"></span>
+										<br />
+										Policy: 7 Days Replacement & Return
+									</p>
+									<p class="fs-5 fw-bold">
+										Price: &nbsp; &nbsp; &nbsp; &nbsp; <i class="fas fa-rupee-sign"></i> <span th:text="${product.discountPrice}"></span>
+										<span class="fs-6 text-decoration-line-through text-secondary" th:text="${product.price}"></span> 
+										<span class="text-success fs-6"><span th:text="${product.discount}"></span>% off</span>
+									</p>
+									<div class="row">
+										<div class="col-md-4 p-2 text-center text-success">
+											<i class="fas fa-money-bill-wave fa-2x"></i>
+											<p>Cash On Delivery</p>
+										</div>
+										<div class="col-md-4 p-2 text-center text-danger">
+											<i class="fas fa-undo-alt fa-2x"></i>
+											<p>Return Avaliable</p>
+										</div>
+										<div class="col-md-4 p-2 text-center text-primary">
+											<i class="fas fa-truck-moving fa-2x"></i>
+											<p>Free Shipping</p>
+										</div>
+									</div>
+									<th:block th:if="${product.stock>0}">
+										<a th:href="@{'/user/addCart?pid='+${product.id}+'&uid='+${user.id}}" class="btn btn-danger form-control">Add To Cart</a>
+									</th:block>
+									<th:block th:unless="${product.stock>0}">
+										<a class="btn btn-warning text-light form-control">Out Of Stock</a>
+									</th:block>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

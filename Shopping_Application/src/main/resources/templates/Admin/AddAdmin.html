@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Admin/Base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title>Shopping Application</title>
+</head>
+<body>
+	<section>
+		<div class="container">
+			<div class="row d-flex justify-content-center align-items-center" style="height: 92vh">
+				<div class="col-md-7">
+					<div class="card">
+						<div class="card-head bg-light p-3">
+							<h3 class="text-center">Add Admin</h3>
+						</div>
+						<div class="card-body">
+							<!-- alert message starts -->
+							<div class="alert alert-success" th:if="${session.successMsg}">
+								<p class="text-center fw-bold">[[${session.successMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-danger" th:if="${session.failMsg}">
+								<div class="text-center fw-bold">[[${session.failMsg}]]</div>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<!--  alert message ends -->
+							<form th:action="@{/admin/saveAdminInformation}" method="post" enctype="multipart/form-data">
+								<div class="row mb-2">
+									<div class="col-md-6">
+										<label for="fullName">Full Name</label>
+										<input type="text" class="form-control" id="fullName" autocomplete="off" name="fullName" required="required"/>
+									</div>
+									<div class="col-md-6">
+										<label for="mobileNumber">Mobile Number</label>
+										<input type="number" class="form-control" maxlength="10" id="mobileNumber" autocomplete="off" name="mobileNumber" required="required" />
+									</div>
+								</div>
+								<div class="form-group mb-2">
+									<label for="email">Email</label>
+									<input type="email" class="form-control" id="email" autocomplete="off" name="email" required="required"/>
+								</div>
+								<div class="row mb-2">
+									<div class="col-md-6">
+										<label for="address">Address</label>
+										<input type="text" class="form-control" id="address" autocomplete="off" name="address" required="required"/>
+									</div>
+									<div class="col-md-6">
+										<label for="city">City</label>
+										<input type="text" class="form-control" id="city" name="city" autocomplete="off" required="required" />
+									</div>
+								</div>
+								<div class="row mb-2">
+									<div class="col-md-6">
+										<label for="state">State</label>
+										<input type="text" class="form-control" id="state" name="state" autocomplete="off" required="required"/>
+									</div>
+									<div class="col-md-6">
+										<label for="pincode">Pincode</label>
+										<input type="number" class="form-control" id="pincode" name="pincode" autocomplete="off" required="required" />
+									</div>
+								</div>
+								<div class="row mb-2">
+									<div class="col-md-6">
+										<label for="password">Password</label>
+										<input type="text" class="form-control" id="password" name="password" autocomplete="off" required="required"/>
+									</div>
+									<div class="col-md-6">
+										<label for="confirmPassword">Confirm Password</label>
+										<input type="text" class="form-control" id="confirmPassword" name="confirmPassword" autocomplete="off" required="required"/>
+									</div>
+								</div>
+								<div class="form-group mb-3">
+									<label for="image">Profile Image</label>
+									<input type="file" class="form-control" id="image" name="image" autocomplete="off" required="required" />
+								</div>
+								<div class="form-group mb-2">
+									<input type="submit" class="form-control btn btn-primary" value="Save"/>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

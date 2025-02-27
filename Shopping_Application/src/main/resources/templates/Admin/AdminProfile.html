@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Admin/Base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title>Shopping Application</title>
+</head>
+<body>
+	<section>
+		<div class="container">
+			<div class="row d-flex justify-content-center margin-class">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-head p-3">
+							<h3 class="text-center fs-2 fw-bolder text-danger">Profile</h3>
+						</div>
+						<div class="card-body table-responsive">
+							<div class="d-flex justify-content-center">
+								<img th:src="@{'/images/users/'+${admin.profileImage}}" class="profileImage text-center img-fluid img-thumbnail" alt="" />
+							</div>
+							<table class="table text-center">
+								<tr>
+									<th>Name</th>
+									<td th:text="${admin.fullName}"></td>
+								</tr>
+								<tr>
+									<th>Mobile Number</th>
+									<td th:text="${admin.mobileNumber}"></td>
+								</tr>
+								<tr>
+									<th>Email</th>
+									<td th:text="${admin.email}"></td>
+								</tr>
+								<tr>
+									<th>Address</th>
+									<td th:text="${admin.address}"></td>
+								</tr>
+								<tr>
+									<th>City</th>
+									<td th:text="${admin.city}"></td>
+								</tr>
+								<tr>
+									<th>State</th>
+									<td th:text="${admin.state}"></td>
+								</tr>
+								<tr>
+									<th>Pincode</th>
+									<td th:text="${admin.pincode}"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

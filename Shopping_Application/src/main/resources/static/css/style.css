@@ -1,0 +1,47 @@
+body {
+	background-color: #FAF7F0 !important;
+}
+
+.bg-primary {
+	background: #69247C !important;
+	color: #fff !important;
+}
+
+.card {
+	box-shadow: 0 0 2px 2px #E5D9F2;
+}
+
+.btn-primary {
+	background: #69247C !important;
+	color: #fff !important;
+	border: none;
+}
+
+.text-primary {
+	color: #69247C !important;
+}
+
+.margin-class {
+	margin-top: 67px !important;
+}
+
+.btn-success {
+	background: #399918 !important;
+	border: none;
+}
+
+.btn-danger {
+	background: #FF0000 !important;
+	border: none;
+}
+
+.active {
+	background: #69247C !important;
+	color: #fff !important;
+}
+
+.profileImage {
+	height: 200px;
+	width: 200px;
+	border-radius: 50%;
+}

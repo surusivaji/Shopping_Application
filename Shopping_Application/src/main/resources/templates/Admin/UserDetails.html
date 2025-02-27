@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Admin/Base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title>Shopping Application</title>
+</head>
+<body>
+	<section>
+		<div class="container margin-class">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-head p-3">
+							<h3 class="text-center text-danger fw-bold">User Details</h3>
+						</div>
+						<div class="card-body table-responsive">
+							<!-- alert messages starts -->
+							<div class="alert alert-success" th:if="${session.successMsg}">
+								<p class="text-center fw-bold">[[${session.successMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-danger" th:if="${session.failMsg}">
+								<p class="text-center fw-bold">[[${session.failMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<!-- alert messages ends -->
+							<table class="table table-hover">
+								<tr class="table-dark">
+									<th>SI No</th>
+									<th>Profile</th>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Mobile No</th>
+									<th>Address</th>
+									<th>City</th>
+									<th>State</th>
+									<th>Pincode</th>
+									<th>Password</th>
+									<th>Action</th>
+								</tr>
+								<tr th:each="user, c : ${users}">
+									<td th:text="${c.count}"></td>
+									<td><img th:src="@{'/images/users/'+${user.profileImage}}" height="50px" width="50px"></td>
+									<td th:text="${user.fullname}"></td>
+									<td th:text="${user.email}"></td>
+									<td th:text="${user.mobileNumber}"></td>
+									<td th:text="${user.address}"></td>
+									<td th:text="${user.city}"></td>
+									<td th:text="${user.state}"></td>
+									<td th:text="${user.pincode}"></td>
+									<td th:text="${user.password}"></td>
+									<td>
+										<a th:href="@{'/admin/edituser/'+${user.id}}" class="btn btn-success btn-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+										<a th:onclick="'deleteUser('+${user.id}+')'" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can"></i> Delete</a>
+									</td>
+								</tr>
+							</table>
+							<div class="d-flex justify-content-center mt-2">
+								<nav aria-label="Page navigation example">
+								  <ul class="pagination">
+								    <li class="page-item" th:if="${currentPage!=0}"><a class="page-link" th:href="@{'/admin/users?pageNo='+${currentPage-1}}">Previous</a></li>
+								    <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage==i-1?'active': ''}"><a class="page-link" th:href="@{'/admin/users?pageNo='+${i-1}}">[[${i}]]</a></li>
+								    <li class="page-item" th:if=${currentPage+1!=totalPages}><a class="page-link" th:href="@{'/admin/users?pageNo='+${currentPage+1}}">Next</a></li>
+								  </ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+		function deleteUser(id) {
+	        swal({
+	            title: "Are you sure?",
+	            text: "You want to delete this user!",
+	            icon: "warning",
+	            buttons: true,
+	            dangerMode: true,
+	        })
+	        .then((willDelete) => {
+	            if (willDelete) {
+	                window.location = "/admin/deleteUser/" + id;  
+	            } else {
+	                swal("This user information is safe!");
+	            }
+	        });
+	    }
+		</script>
+	</section>
+</body>
+</html>

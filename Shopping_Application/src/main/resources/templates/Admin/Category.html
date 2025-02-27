@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Admin/Base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title>Shopping Application</title>
+</head>
+<body>
+	<section>
+		<div class="container-fluid margin-class">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="card shadow">
+						<div class="card-head">
+							<h3 class="text-center bg-light p-3">Add Category</h3>
+						</div>
+						<div class="card-body">
+						
+							<!-- alert messages starts -->
+							<div class="alert alert-warning" th:if="${session.warningMsg}">
+								<p class="text-center">[[${session.warningMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-success" th:if="${session.successMsg}">
+								<p class="text-center">[[${session.successMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-warning" th:if="${session.failMsg}">
+								<p class="text-center">[[${session.failMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<!-- alert messages ends -->
+						
+							<form th:action="@{/admin/saveCategoryInformation}" method="post" enctype="multipart/form-data">
+								<div class="form-group mb-3">
+									<label for="image">Enter Category</label>
+									<input type="text" class="form-control" name="name" id="name" autocomplete="off" required="required"/>
+								</div>
+								<div class="form-group mb-3">
+									<label for="status">Status</label>
+								 <div class="form-check">
+								  <input class="form-check-input" type="radio" name="isActive" id="flexRadioDefault1" value="true">
+								  <label class="form-check-label" for="flexRadioDefault1">
+								    isActive
+								  </label>
+								</div>
+								<div class="form-check">
+								  <input class="form-check-input" type="radio" name="isActive" id="flexRadioDefault2" value="false">
+								  <label class="form-check-label" for="flexRadioDefault2">
+								    inActive
+								  </label>
+								</div>
+								</div>
+								<div class="form-group mb-3">
+									<label for="uploadImage">Upload Image</label>
+									<input type="file" class="form-control" name="uploadImage" id="uploadImage" autocomplete="off" required="required" />
+								</div>
+								<div class="form-group mb-3">
+									<input type="submit" class="form-control btn btn-primary"/>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<div class="card shadow">
+						<div class="card-head">
+							<h3 class="text-center bg-light p-3">Category Details</h3>
+						</div>
+						<div class="card-body table-responsive">
+							
+							<!-- alert message starts -->
+							<div class="alert alert-warning" th:if="${session.errorInfo}">
+								<p class="text-center">[[${session.errorInfo}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-success" th:if="${session.updateSuccess}">
+								<p class="text-center">[[${session.updateSuccess}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-danger" th:if="${session.updateFail}">
+								<p class="text-center">[[${session.updateFail}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<!-- alert message ends -->
+							
+							<table class="table">
+								<tr class="table-dark">
+									<th>SI No</th>
+									<th>Category</th>
+									<th>Status</th>
+									<th>Image</th>
+									<th>Action</th>
+								</tr>
+								<tr th:each="category : ${categories}">
+									<td th:text="${category.id}"></td>
+									<td th:text="${category.name}"></td>
+									<td th:text="${category.isActive}"></td>
+									<td>
+										<img th:src="@{'/images/category/'+${category.categoryImage}}" alt="" height="50px" width="50px"/>
+									</td>
+									<td>
+										<a th:href="@{'/admin/editcategory/'+${category.id}}" class="btn btn-success btn-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+										<a th:onclick="'deleteCategory('+${category.id}+')'" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can"></i> Delete</a>
+									</td>
+								</tr>
+							</table>
+							<!-- paggination -->
+							<div class="d-flex justify-content-center">
+								<nav aria-label="Page navigation example mt-2 d-flex justify-content-center">
+								  <ul class="pagination">
+									<li class="page-item" th:if="${currentPage!=0}"><a class="page-link" th:href="@{'/admin/categories?pageNo='+${currentPage-1}}">Previous</a></li>
+									<li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage==i-1 ? 'active': ''}"><a class="page-link" th:href="@{'/admin/categories?pageNo='+${i-1}}">[[${i}]]</a></li>
+									<li class="page-item" th:if="${currentPage+1!=totalPages}"><a class="page-link" th:href="@{'/admin/categories?pageNo='+${currentPage+1}}">Next</a></li>
+								  </ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+		function deleteCategory(id) {
+	        swal({
+	            title: "Are you sure?",
+	            text: "You want to delete this category!",
+	            icon: "warning",
+	            buttons: true,
+	            dangerMode: true,
+	        })
+	        .then((willDelete) => {
+	            if (willDelete) {
+	                window.location = "/admin/deletecategory/" + id;  
+	            } else {
+	                swal("This category is safe!");
+	            }
+	        });
+	    }
+		</script>
+	</section>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Admin/Base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title>Shopping Application</title>
+</head>
+<body>
+	<section>
+		<div class="container">
+			<div class="row margin-class">
+				<div class="col-md-12">
+					<h3 class="text-center fs-2 fw-bold text-danger">Admin Dashboard</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mt-3">
+					<a th:href="@{/admin/addproduct}" class="text-decoration-none">
+						<div class="card">
+							<div class="card-body text-center">
+								<p><i class="fa-solid fa-square-plus fa-3x text-primary"></i></p>
+								<h4 class="text-primary">Add Product</h4>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-4 mt-3">
+					<a th:href="@{/admin/categories}" class="text-decoration-none">
+						<div class="card">
+							<div class="card-body text-center">
+								<p><i class="fa-solid fa-list fa-3x text-warning"></i></p>
+								<h4 class="text-warning">Add Category</h4>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-4 mt-3">
+					<a th:href="@{/admin/products}" class="text-decoration-none">
+						<div class="card">
+							<div class="card-body text-center">
+								<p><i class="fa-solid fa-table-list fa-3x text-success"></i></p>
+								<h4 class="text-success">View Product</h4>
+							</div>
+						</div>
+					</a>
+				</div> 
+			</div>
+			
+			<div class="row">
+				<div class="col-md-4 mt-3">
+					<a th:href="@{/admin/orders}" class="text-decoration-none">
+						<div class="card">
+							<div class="card-body text-center">
+								<p><i class="fa-solid fa-box-open fa-3x text-warning"></i></p>
+								<h4 class="text-warning">Orders</h4>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-4 mt-3">
+					<a th:href="@{/admin/users}" class="text-decoration-none">
+						<div class="card">
+							<div class="card-body text-center">
+								<p><i class="fa-solid fa-circle-user fa-3x text-success"></i></p>
+								<h4 class="text-success">Users</h4>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-4 mt-3">
+					<a th:href="@{/admin/addAdmin}" class="text-decoration-none">
+						<div class="card">
+							<div class="card-body text-center">
+								<p><i class="fa-solid fa-user-plus fa-3x text-primary"></i></p>
+								<h4 class="text-primary">Add Admin</h4>
+							</div>
+						</div>
+					</a>
+				</div> 
+			</div>
+			<div class="row d-flex justify-content-center">
+				<div class="col-md-4 mt-3">
+					<a th:href="@{/admin/admins}" class="text-decoration-none">
+						<div class="card">
+							<div class="card-body text-center">
+								<p><i class="fa-solid fa-user-tie fa-3x text-danger"></i></p>
+								<h4 class="text-danger">View Admin</h4>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

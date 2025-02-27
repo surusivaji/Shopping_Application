@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="User/Base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title>Shopping Application</title>
+</head>
+<body>
+	<section>
+		<div class="container">
+			<div class="row d-flex align-items-center justify-content-center" style="height:55vh">
+				<div class="col-md-12">
+					<p class="text-center text-success"><i class="fa-solid fa-circle-check fa-5x"></i></p>
+					<p class="text-center fs-3">Your Product Ordered Successfully</p>
+					<p class="text-center fs-4">Product will be delivered with in 7 days</p>
+					<div class="text-center">
+						<a th:href="@{/user/home}" class="btn btn-primary"><i class="fa-solid fa-house"></i> Home</a>
+						<a th:href="@{/user/myOrders}" class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i> Your Order</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

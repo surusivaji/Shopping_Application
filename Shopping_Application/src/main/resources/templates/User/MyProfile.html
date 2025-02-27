@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="User/Base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title>Shopping Application</title>
+</head>
+<body>
+	<section>
+		<div class="container">
+			<div class="row margin-class d-flex justify-content-center">
+				<div class="col-md-8">
+					<div class="card">
+						<div class="card-head p-2">
+							<h3 class="text-center fs-2 fw-bolder text-danger">Profile</h3>
+						</div>
+						<div class="card-body table-responsive">
+							<!-- alert message starts  -->
+							<div class="alert alert-success" th:if="${session.successMsg}">
+								<p class="text-center">[[${session.successMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-danger" th:if="${session.failMsg}">
+								<p class="text-center">[[${session.failMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<!-- alert message ends  -->
+							<div class="mb-2 d-flex justify-content-center">
+								<img th:src="@{'/images/users/'+${user.profileImage}}" class="profileImage text-center img-fluid img-thumbnail" alt="" />
+							</div>
+							<form th:action="@{/user/updateUserInformation}" method="post" enctype="multipart/form-data">
+								<input type="hidden" name="id" class="form-control" id="id" th:value="${user.id}" />
+								<table class="table table-borderless">
+									<tr>
+										<th><label for="fullName">Name</label></th>
+										<td>:</td>
+										<td><input type="text" name="fullname" class="form-control" id="fullName" th:value="${user.fullname}" /></td>
+									</tr>
+									<tr>
+										<th><label for="mobileNumber">Mobile Number</label></th>
+										<td>:</td>
+										<td><input type="number" name="mobileNumber" class="form-control" id="mobileNumber" th:value="${user.mobileNumber}"/></td>
+									</tr>
+									<tr>
+										<th><label for="email">Email</label></th>
+										<td>:</td>
+										<td><input type="email" name="email" class="form-control" id="email" th:value="${user.email}"/></td>
+									</tr>
+									<tr>
+										<th><label for="address">Address</label></th>
+										<td>:</td>
+										<td><input type="text" name="address" class="form-control" id="address" th:value="${user.address}" /></td>
+									</tr>
+									<tr>
+										<th><label for="city">City</label></th>
+										<td>:</td>
+										<td><input type="text" name="city" class="form-control" id="city" th:value="${user.city}" /></td>
+									</tr>
+									<tr>
+										<th><label for="state">State</label></th>
+										<td>:</td>
+										<td><input type="text" name="state" class="form-control" id="state" th:value="${user.state}"/></td>
+									</tr>
+									<tr>
+										<th><label for="pincode">Pincode</label></th>
+										<td>:</td>
+										<td><input type="number" name="pincode" class="form-control" id="pincode" th:value="${user.pincode}"/></td>
+									</tr>
+									<tr>
+										<th><label for="password">Password</label></th>
+										<td>:</td>
+										<td><input type="text" name="password" class="form-control" id="password" th:value="${user.password}" /></td>
+									</tr>
+									<tr>
+										<th><label for="image">Profile Image</label></th>
+										<td>:</td>
+										<td><input type="file" name="image" class="form-control" id="image" /></td>
+									</tr>
+									<tr>
+										<td colspan="3" align="center"><input type="submit" value="UPDATE" class="btn btn-primary"/></td>
+									</tr>
+								</table>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

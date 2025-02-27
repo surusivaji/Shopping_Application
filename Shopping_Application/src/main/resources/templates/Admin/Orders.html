@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Admin/Base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title>Shopping Application</title>
+</head>
+<body>
+	<section>
+		<div class="container-fluid">
+			<div class="row" style="margin-top: 80px">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-head p-2">
+							<h3 class="fw-bold text-center text-danger">All Orders</h3>
+						</div>
+						<div class="card-body table-responsive">
+							<form th:action="@{/admin/search-order}">
+								<div class="row m-3">
+									<div class="col-md-3">
+											<input type="text" name="orderId" class="form-control" placeholder="Enter order id" required />
+									</div>
+									<div class="col-md-2">
+										<input type="submit" value="search" class="me-5 btn btn-primary"/>
+									</div> 
+								</div>
+							</form>
+							<!-- alert message starts -->
+							<div class="alert alert-success" th:if="${session.successMsg}">
+								<p class="text-center">[[${session.successMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-danger" th:if="${session.failMsg}">
+								<p class="text-center">[[${session.failMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<!-- alert message ends -->
+							<table class="table table-bordered">
+								<tr class="table-dark">
+									<th>Order Id</th>
+									<th>Date</th>
+									<th>Product Name</th>
+									<th>Image</th>
+									<th>Delivery Details</th>
+									<th>Price</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+								<th:block th:if="${search==false}">
+									<tr th:each="order : ${orders}">
+										<th th:text="${order.orderId}"></th>
+										<td th:text="${#dates.format(order.orderDate, 'dd-MM-yyyy')}"></td>
+										<td th:text="${order.product.title}"></td>
+										<td>
+											<img th:src="@{'/images/product/'+${order.product.image}}" height="150px" width="150px" alt="" />
+										</td>
+										<td>
+											Name: <span th:text="${order.orderAddress.firstName}"></span> <span th:text="${order.orderAddress.lastName}"></span>
+											<br>
+											Email: <span th:text="${order.orderAddress.email}"></span>
+											<br>
+											Mobileno: <span th:text="${order.orderAddress.mobileNumber}"></span>
+											<br>
+											Address: <span th:text="${order.orderAddress.address}"></span>
+											<br />
+											City: <span th:text="${order.orderAddress.city}"></span>
+											<br />
+											State: <span th:text="${order.orderAddress.state}"></span>, <span th:text="${order.orderAddress.pincode}"></span>
+										</td>
+										<td>
+											Quantity: <span th:text="${order.quantity}"></span> 
+											<br />
+											Price: <span th:text="${order.product.discountPrice}"></span>
+											<br />
+											Total Price: <span th:text="${order.quantity * order.product.discountPrice}"></span>
+										</td>
+										<td th:text="${order.status}"></td>
+										<td>
+											<form th:action="@{/admin/update-order-status}" method="post">
+												<div class="row">
+													<div class="col-md-6">
+														<select class="form-select" aria-label="Default select example" id="payment" name="status" required="required">
+															<option selected>-- select ---</option>
+															<option value="1">In Progress</option>
+															<option value="2">Order Received</option>
+															<option value="3">Product Packed</option>
+															<option value="4">Out for Delivery</option>
+															<option value="5">Delivered</option>
+															<option value="6">Cancelled</option>
+														</select>
+														<input type="hidden" name="id" th:value="${order.id}"/>
+													</div>
+													<div class="col-md-6">
+														<th:block th:if="${order.status=='Cancelled' || order.status=='Delivered'}">	
+															<input type="button" value="Update" class="btn btn-success disabled"/>
+															<a th:href="@{'/admin/deleteOrder/'+${order.id}}" class="btn btn-danger">Delete</a>
+														</th:block>
+														<th:block th:unless="${order.status=='Cancelled' || order.status=='Delivered'}">	
+															<input type="submit" value="Update" class="btn btn-success"/>
+															<a th:href="@{'/admin/deleteOrder/'+${order.id}}" class="btn btn-danger">Delete</a>
+														</th:block>
+													</div>
+												</div>
+											</form>
+										</td>
+									</tr>
+								</th:block>
+								<th:block th:if="${search==true}">
+									<th:block th:if=${productOrder!=null}>
+									<tr>
+										<th th:text="${productOrder.orderId}"></th>
+										<td th:text="${#dates.format(productOrder.orderDate, 'dd-MM-yyyy')}"></td>
+										<td th:text="${productOrder.product.title}"></td>
+										<td>
+											<img th:src="@{'/images/product/'+${productOrder.product.image}}" height="150px" width="150px" alt="" />
+										</td>
+										<td>
+											Name: <span th:text="${productOrder.orderAddress.firstName}"></span> <span th:text="${productOrder.orderAddress.lastName}"></span>
+											<br>
+											Email: <span th:text="${productOrder.orderAddress.email}"></span>
+											<br>
+											Mobileno: <span th:text="${productOrder.orderAddress.mobileNumber}"></span>
+											<br>
+											Address: <span th:text="${productOrder.orderAddress.address}"></span>
+											<br />
+											City: <span th:text="${productOrder.orderAddress.city}"></span>
+											<br />
+											State: <span th:text="${productOrder.orderAddress.state}"></span>, <span th:text="${productOrder.orderAddress.pincode}"></span>
+										</td>
+										<td>
+											Quantity: <span th:text="${productOrder.quantity}"></span> 
+											<br />
+											Price: <span th:text="${productOrder.product.discountPrice}"></span>
+											<br />
+											Total Price: <span th:text="${productOrder.quantity * productOrder.product.discountPrice}"></span>
+										</td>
+										<td th:text="${productOrder.status}"></td>
+										<td>
+											<form th:action="@{/admin/update-order-status}" method="post">
+												<div class="row">
+													<div class="col-md-6">
+														<select class="form-select" aria-label="Default select example" id="payment" name="status" required="required">
+															<option selected>-- select ---</option>
+															<option value="1">In Progress</option>
+															<option value="2">Order Received</option>
+															<option value="3">Product Packed</option>
+															<option value="4">Out for Delivery</option>
+															<option value="5">Delivered</option>
+															<option value="6">Cancelled</option>
+														</select>
+														<input type="hidden" name="id" th:value="${productOrder.id}"/>
+													</div>
+													<div class="col-md-6">
+														<th:block th:if="${productOrder.status=='Cancelled' || productOrder.status=='Delivered'}">	
+															<input type="button" value="Update" class="btn btn-success disabled"/>
+															<a th:href="@{'/admin/deleteOrder/'+${productOrder.id}}" class="btn btn-danger">Delete</a>
+														</th:block>
+														<th:block th:unless="${productOrder.status=='Cancelled' || productOrder.status=='Delivered'}">	
+															<input type="submit" value="Update" class="btn btn-success"/>
+															<a th:href="@{'/admin/deleteOrder/'+${productOrder.id}}" class="btn btn-danger">Delete</a>
+														</th:block>
+													</div>
+												</div>
+											</form>
+										</td>
+									</tr>
+									</th:block>
+									<th:block th:if="${productOrder==null}">
+										<tr>
+											<td colspan="8" align="center" class="text-danger fw-bold fs-4" th:text="${infoMsg}"></td>
+										</tr>
+									</th:block>
+								</th:block>
+							</table>
+							<!-- paggination -->
+							<th:block th:if="${search==false}">
+								<div class="d-flex justify-content-center mt-2">
+									<nav aria-label="Page navigation example">
+									  <ul class="pagination">
+									    <li class="page-item" th:if="${currentPage!=0}"><a class="page-link" th:href="@{'/admin/orders?pageNo='+${currentPage-1}}">Previous</a></li>
+									    <li class="page-item" th:each="i:${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage==i-1? 'active' : ''}"><a class="page-link" th:href="@{'/admin/orders?pageNo='+${i-1}}">[[${i}]]</a></li>
+									    <li class="page-item" th:if="${currentPage+1!=totalPages}"><a class="page-link" th:href="@{'/admin/orders?pageNo='+${currentPage+1}}">Next</a></li>
+									  </ul>
+									</nav>
+								</div>
+							</th:block>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="User/Base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title>Shopping Application</title>
+</head>
+<body>
+	<section>
+		<div class="container">
+			<div class="row" style="margin-top:80px">
+				<div class="col-md-12">
+					<div class="card p-2">
+						<div class="card-head p-2 text-light">
+							<h3 class="text-center text-danger fw-bold">My Orders</h3>
+						</div>
+						<div class="card-body table-responsive">
+							<!-- alert message starts  -->
+							<div class="alert alert-success" th:if="${session.successMsg}">
+								<p class="text-center">[[${session.successMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-danger" th:if="${session.failMsg}">
+								<p class="text-center">[[${session.failMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<!-- alert message ends  -->
+							<table class="table">
+								<tr class="table-dark">
+									<th>Order Id</th>
+									<th>Date</th>
+									<th>Product Name</th>
+									<th>Image</th>
+									<th>Price</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+								<tr th:each="productOrder : ${productOrders}">
+									<th th:text="${productOrder.orderId}"></th>
+									<td th:text="${#dates.format(productOrder.orderDate, 'dd-MM-yyyy')}"></td>
+									<td th:text="${productOrder.product.title}"></td>
+									<td><img th:src="'/images/product/'+${productOrder.product.image}" height="70px" width="70px"></td>
+									<td>
+										Quantity: <span th:text="${productOrder.quantity}"></span>
+										<br>
+										Price: <span th:text="${productOrder.product.discountPrice}"></span>
+										<br />
+										Total Price: [[${productOrder.quantity * productOrder.product.discountPrice}]]
+									</td>
+									<td th:text="${productOrder.status}"></td>
+									<th:block th:if="${productOrder.status=='Cancelled' || productOrder.status=='Delivered'}">
+										<td>
+											<a href="" class="btn btn-success btn-sm disabled">Cancel</a>
+											<a th:href="@{'/user/deleteOrder/'+${productOrder.id}}" class="btn btn-danger btn-sm">Delete</a>
+										</td>
+									</th:block>
+									<th:block th:unless="${productOrder.status=='Cancelled' || productOrder.status=='Delivered'}">
+										<td>
+											<a th:href="@{'/user/updatestatus?orderId='+${productOrder.id}+'&status=6'}" class="btn btn-success btn-sm">Cancel</a>
+											<a th:href="@{'/user/deleteOrder/'+${productOrder.id}}" class="btn btn-danger btn-sm">Delete</a>
+										</td>
+									</th:block>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

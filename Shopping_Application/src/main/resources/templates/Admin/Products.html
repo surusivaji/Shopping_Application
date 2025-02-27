@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Admin/Base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title>Shopping Application</title>
+</head>
+<body>
+	<section>
+		<div class="container margin-class">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-head p-3">
+							<h3 class="text-center fs-2 text-danger fw-bold">Display Products</h3>
+						</div>
+						<div class="card-body table-responsive">
+						
+							<!-- alert message starts  -->
+							<div class="alert alert-success" th:if="${session.successMsg}">
+								<p class="text-center">[[${session.successMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-danger" th:if="${session.failMsg}">
+								<p class="text-center">[[${session.failMsg}]]</p>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<!-- alert message ends -->
+							
+							<table class="table table-hover">
+								<tr class="table-dark">
+									<th>SI No</th>
+									<th>Image</th>
+									<th>Title</th>
+									<th>Category</th>
+									<th>Price</th>
+									<th>Discount</th>
+									<th>Discount Price</th>
+									<th>Stock</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+								<tr th:each="product : ${products}">
+									<td th:text="${product.id}"></td>
+									<td>
+										<img th:src="@{'/images/product/'+${product.image}}" alt="" height="50px" width="50px"/>
+									</td>
+									<td th:text="${product.title}"></td>
+									<td th:text="${product.category}"></td>
+									<td th:text="${product.price}"></td>
+									<td><span th:text="${product.discount}"></span><span>%</span></td>
+									<td th:text="${product.discountPrice}"></td>
+									<td th:text="${product.stock}"></td>
+									<td th:text="${product.isActive}"></td>
+									<td>
+										<a th:href="@{'/admin/editproduct/'+${product.id}}" class="btn btn-success btn-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+										<a th:onclick="'deleteProduct('+${product.id}+')'" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can"></i> Delete</a>
+									</td>
+								</tr>
+							</table>
+							<div class="d-flex justify-content-center mt-2">
+								<nav aria-label="Page navigation example">
+								  <ul class="pagination">
+								    <li class="page-item" th:if="${currentPage!=0}"><a class="page-link" th:href="@{'/admin/products?pageNo='+${currentPage-1}}">Previous</a></li>
+								    <li class="page-item" th:each="i:${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage==i-1? 'active' : ''}"><a class="page-link" th:href="@{'/admin/products?pageNo='+${i-1}}">[[${i}]]</a></li>
+								    <li class="page-item" th:if="${currentPage+1!=totalPages}"><a class="page-link" th:href="@{'/admin/products?pageNo='+${currentPage+1}}">Next</a></li>
+								  </ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+		function deleteProduct(id) {
+	        swal({
+	            title: "Are you sure?",
+	            text: "You want to delete this product!",
+	            icon: "warning",
+	            buttons: true,
+	            dangerMode: true,
+	        })
+	        .then((willDelete) => {
+	            if (willDelete) {
+	                window.location = "/admin/deleteproduct/" + id;  
+	            } else {
+	                swal("This product is safe!");
+	            }
+	        });
+	    }
+		</script>
+	</section>
+</body>
+</html>
