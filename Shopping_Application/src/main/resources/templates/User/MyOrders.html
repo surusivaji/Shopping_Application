@@ -50,13 +50,13 @@
 									<th:block th:if="${productOrder.status=='Cancelled' || productOrder.status=='Delivered'}">
 										<td>
 											<a href="" class="btn btn-success btn-sm disabled">Cancel</a>
-											<a th:href="@{'/user/deleteOrder/'+${productOrder.id}}" class="btn btn-danger btn-sm">Delete</a>
+											<a th:onclick="'deleteOrder('+${productOrder.id}+')'" class="btn btn-danger btn-sm">Delete</a>
 										</td>
 									</th:block>
 									<th:block th:unless="${productOrder.status=='Cancelled' || productOrder.status=='Delivered'}">
 										<td>
 											<a th:href="@{'/user/updatestatus?orderId='+${productOrder.id}+'&status=6'}" class="btn btn-success btn-sm">Cancel</a>
-											<a th:href="@{'/user/deleteOrder/'+${productOrder.id}}" class="btn btn-danger btn-sm">Delete</a>
+											<a th:onclick="'deleteOrder('+${productOrder.id}+')'" class="btn btn-danger btn-sm">Delete</a>
 										</td>
 									</th:block>
 								</tr>
@@ -66,6 +66,24 @@
 				</div>
 			</div>
 		</div>
+		<script>
+			function deleteOrder(id) {
+		        swal({
+		            title: "Are you sure?",
+		            text: "You want to delete this order!",
+		            icon: "warning",
+		            buttons: true,
+		            dangerMode: true,
+		        })
+		        .then((willDelete) => {
+		            if (willDelete) {
+		                window.location = "/user/deleteOrder/" + id;  
+		            } else {
+		                swal("This order is safe!");
+		            }
+		        });
+		    }
+		</script>
 	</section>
 </body>
 </html>

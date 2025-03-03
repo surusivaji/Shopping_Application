@@ -92,11 +92,11 @@
 													<div class="col-md-6">
 														<th:block th:if="${order.status=='Cancelled' || order.status=='Delivered'}">	
 															<input type="button" value="Update" class="btn btn-success disabled"/>
-															<a th:href="@{'/admin/deleteOrder/'+${order.id}}" class="btn btn-danger">Delete</a>
+															<a th:onclick="'deleteOrder('+${order.id}+')'" class="btn btn-danger">Delete</a>
 														</th:block>
 														<th:block th:unless="${order.status=='Cancelled' || order.status=='Delivered'}">	
 															<input type="submit" value="Update" class="btn btn-success"/>
-															<a th:href="@{'/admin/deleteOrder/'+${order.id}}" class="btn btn-danger">Delete</a>
+															<a th:onclick="'deleteOrder('+${order.id}+')'" class="btn btn-danger">Delete</a>
 														</th:block>
 													</div>
 												</div>
@@ -152,11 +152,11 @@
 													<div class="col-md-6">
 														<th:block th:if="${productOrder.status=='Cancelled' || productOrder.status=='Delivered'}">	
 															<input type="button" value="Update" class="btn btn-success disabled"/>
-															<a th:href="@{'/admin/deleteOrder/'+${productOrder.id}}" class="btn btn-danger">Delete</a>
+															<a th:onclick="'deleteOrder('+${productOrder.id}+')'" class="btn btn-danger">Delete</a>
 														</th:block>
 														<th:block th:unless="${productOrder.status=='Cancelled' || productOrder.status=='Delivered'}">	
 															<input type="submit" value="Update" class="btn btn-success"/>
-															<a th:href="@{'/admin/deleteOrder/'+${productOrder.id}}" class="btn btn-danger">Delete</a>
+															<a th:onclick="'deleteOrder('+${productOrder.id}+')'" class="btn btn-danger">Delete</a>
 														</th:block>
 													</div>
 												</div>
@@ -175,11 +175,11 @@
 							<th:block th:if="${search==false}">
 								<div class="d-flex justify-content-center mt-2">
 									<nav aria-label="Page navigation example">
-									  <ul class="pagination">
-									    <li class="page-item" th:if="${currentPage!=0}"><a class="page-link" th:href="@{'/admin/orders?pageNo='+${currentPage-1}}">Previous</a></li>
-									    <li class="page-item" th:each="i:${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage==i-1? 'active' : ''}"><a class="page-link" th:href="@{'/admin/orders?pageNo='+${i-1}}">[[${i}]]</a></li>
-									    <li class="page-item" th:if="${currentPage+1!=totalPages}"><a class="page-link" th:href="@{'/admin/orders?pageNo='+${currentPage+1}}">Next</a></li>
-									  </ul>
+										<ul class="pagination">
+										   <li class="page-item" th:if="${currentPage!=0}"><a class="page-link" th:href="@{'/admin/orders?pageNo='+${currentPage-1}}">Previous</a></li>
+										   <li class="page-item" th:each="i:${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage==i-1? 'active' : ''}"><a class="page-link" th:href="@{'/admin/orders?pageNo='+${i-1}}">[[${i}]]</a></li>
+										   <li class="page-item" th:if="${currentPage+1!=totalPages}"><a class="page-link" th:href="@{'/admin/orders?pageNo='+${currentPage+1}}">Next</a></li>
+										 </ul>
 									</nav>
 								</div>
 							</th:block>
@@ -188,6 +188,24 @@
 				</div>
 			</div>
 		</div>
+		<script>
+			function deleteOrder(id) {
+		        swal({
+		            title: "Are you sure?",
+		            text: "You want to delete this order!",
+		            icon: "warning",
+		            buttons: true,
+		            dangerMode: true,
+		        })
+		        .then((willDelete) => {
+		            if (willDelete) {
+		                window.location = "/admin/deleteOrder/" + id;  
+		            } else {
+		                swal("This order is safe!");
+		            }
+		        });
+		    }
+		</script>
 	</section>
 </body>
 </html>
