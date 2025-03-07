@@ -106,57 +106,55 @@ mvn spring-boot:run
    <img src="viewcart.png" alt="view cart Page" width="80%">
    <h4>10. Address Page</h4>
    <img src="address.png" alt="Address Page" width="80%">
-   <h4>11. Address Page</h4>
+   <h4>11. Order Success Page</h4>
    <img src="ordersuccess.png" alt="order success" width="80%">
-   <h4>12. Address Page</h4>
-   <img src="address.png" alt="Address Page" width="80%">
-   <h4>13. My Orders Page</h4>
+   <h4>12. My Orders Page</h4>
    <img src="myorders.png" alt="Orders Page" width="80%">
-   <h4>14. Update Profile Page</h4>
+   <h4>13. Update Profile Page</h4>
    <img src="updateprofile.png" alt="Update Profile Page" width="80%">
-   <h4>15. User Logout Page</h4>
+   <h4>14. User Logout Page</h4>
    <img src="userlogout.png" alt="User Logout Page" width="80%">
-    <h4>16. Admin Login Page</h4>
+    <h4>15. Admin Login Page</h4>
     <img src="adminlogin.png" alt="Admin Login Page" width="80%">
-    <h4>17. Admin Dashboard Page</h4>
+    <h4>16. Admin Dashboard Page</h4>
     <img src="admindashboard.png" alt="Admin Login Page" width="80%">
-    <h4>18. Add Product Page</h4>
+    <h4>17. Add Product Page</h4>
     <img src="addproduct.png" alt="Add Product Page" width="80%">
-    <h4>19. Categories Page</h4>
+    <h4>18. Categories Page</h4>
     <img src="categories.png" alt="Categories Page" width="80%">
-    <h4>20. Update Category Page</h4>
+    <h4>19. Update Category Page</h4>
     <img src="editcategory.png" alt="Edit Category Page" width="80%">
-    <h4>21. Delete Category Page</h4>
+    <h4>20. Delete Category Page</h4>
     <img src="deletecategory.png" alt="Delete Category Page" width="80%">
-    <h4>22. Display Products Page</h4>
+    <h4>21. Display Products Page</h4>
     <img src="displayproducts.png" alt="Display Products Page" width="80%">
-    <h4>23. Edit Product Page</h4>
+    <h4>22. Edit Product Page</h4>
     <img src="editproduct.png" alt="Edit Product Page" width="80%">
-    <h4>24. Delete Product Page</h4>
+    <h4>23. Delete Product Page</h4>
     <img src="deleteproduct.png" alt="Delete Product Page" width="80%">
-    <h4>25. Orders Page</h4>
+    <h4>24. Orders Page</h4>
     <img src="orders.png" alt="Orders Page" width="80%">
-    <h4>26. Update Order Status Page</h4>
+    <h4>25. Update Order Status Page</h4>
     <img src="orderstatus.png" alt="Order Status Page" width="80%">
-    <h4>27. Delete Order Page</h4>
+    <h4>26. Delete Order Page</h4>
     <img src="deleteorder.png" alt="Delte Order Page" width="80%">
-    <h4>28. User Details Page</h4>
+    <h4>27. User Details Page</h4>
     <img src="orderdetails.png" alt="User details Page" width="80%">
-    <h4>29. Edit User Page</h4>
+    <h4>28. Edit User Page</h4>
     <img src="edituser.png" alt="Edit User Page" width="80%">
-    <h4>30. Delete User Page</h4>
+    <h4>29. Delete User Page</h4>
     <img src="deleteuser.png" alt="Delete User Page" width="80%">
-    <h4>31. Add Admin Page</h4>
+    <h4>30. Add Admin Page</h4>
     <img src="addadmin.png" alt="Add Admin Page" width="80%">
-    <h4>32. Admin Details Page</h4>
+    <h4>31. Admin Details Page</h4>
     <img src="admindetails.png" alt="Admin Details Page" width="80%">
-    <h4>33. Update Admin Page</h4>
+    <h4>32. Update Admin Page</h4>
     <img src="updateadmin.png" alt="Update Admin Info Page" width="80%">
-    <h4>34. Delete Admin Page</h4>
+    <h4>33. Delete Admin Page</h4>
     <img src="deleteadmin.png" alt="Delte Admin Page" width="80%">
-    <h4>35. Admin Profile Page</h4>
+    <h4>34. Admin Profile Page</h4>
     <img src="adminprofile.png" alt="Admin Profile Page" width="80%">
-    <h4>36. Admin Logout Page</h4>
+    <h4>35. Admin Logout Page</h4>
     <img src="adminlogout.png" alt="Admin Logout Page" width="80%">
 <hr>
 <h3 align="center">🎉 Happy Shopping! 🚀</h3> 
