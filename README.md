@@ -84,12 +84,82 @@ mvn spring-boot:run
 - **Admin Panel:** `http://localhost:8080/admin`
 
 ## 🖼️ Screenshots
-- 🏠 **Home Page:** Displays latest products and categories.
-- 🔑 **Login & Registration:** Secure user authentication.
-- 🛒 **Cart Page:** Shows selected products before checkout.
-- 📦 **Admin Dashboard:** Overview of users, products, and orders.
-
-## 🎉 Happy Shopping! 🚀
-Thank you for checking out this project! If you found it helpful, **give it a star ⭐ on GitHub!** 😊
+<p>Below are sample screenshots showcasing the ENotes Application:</p>
+<div>
+  <h4>1. Index Page</h4>
+  <img src="index.png" alt="Index Page" width="80%">
+  <h4>2. Registration Page</h4>
+  <img src="register.png" alt="User Registration Page" width="80%">
+   <h4>3. Login Page</h4>
+  <img src="login.png" alt="User Login Page" width="80%">
+   <h4>4. Forgot Password Page</h4>
+  <img src="forgotpassword.png" alt="Forgot Password Page" Page" width="80%">
+   <h4>5. Reset Password Page</h4>
+  <img src="changepassword.png" alt="Reset Password Page" width="80%">
+   <h4>6. Home Page</h4>
+  <img src="userhome.png" alt="Home Page" width="80%">
+  <h4>7. Products Page</h4>
+  <img src="products.png" alt="products Page" width="80%">
+   <h4>8. View Product Page</h4>
+   <img src="viewproduct.png" alt="view product Page" width="80%">
+   <h4>9. View Cart Page</h4>
+   <img src="viewcart.png" alt="view cart Page" width="80%">
+   <h4>10. Address Page</h4>
+   <img src="address.png" alt="Address Page" width="80%">
+   <h4>11. Address Page</h4>
+   <img src="ordersuccess.png" alt="order success" width="80%">
+   <h4>12. Address Page</h4>
+   <img src="address.png" alt="Address Page" width="80%">
+   <h4>13. My Orders Page</h4>
+   <img src="myorders.png" alt="Orders Page" width="80%">
+   <h4>14. Update Profile Page</h4>
+   <img src="updateprofile.png" alt="Update Profile Page" width="80%">
+   <h4>15. User Logout Page</h4>
+   <img src="userlogout.png" alt="User Logout Page" width="80%">
+    <h4>16. Admin Login Page</h4>
+    <img src="adminlogin.png" alt="Admin Login Page" width="80%">
+    <h4>17. Admin Dashboard Page</h4>
+    <img src="admindashboard.png" alt="Admin Login Page" width="80%">
+    <h4>18. Add Product Page</h4>
+    <img src="addproduct.png" alt="Add Product Page" width="80%">
+    <h4>19. Categories Page</h4>
+    <img src="categories.png" alt="Categories Page" width="80%">
+    <h4>20. Update Category Page</h4>
+    <img src="editcategory.png" alt="Edit Category Page" width="80%">
+    <h4>21. Delete Category Page</h4>
+    <img src="deletecategory.png" alt="Delete Category Page" width="80%">
+    <h4>22. Display Products Page</h4>
+    <img src="displayproducts.png" alt="Display Products Page" width="80%">
+    <h4>23. Edit Product Page</h4>
+    <img src="editproduct.png" alt="Edit Product Page" width="80%">
+    <h4>24. Delete Product Page</h4>
+    <img src="deleteproduct.png" alt="Delete Product Page" width="80%">
+    <h4>25. Orders Page</h4>
+    <img src="orders.png" alt="Orders Page" width="80%">
+    <h4>26. Update Order Status Page</h4>
+    <img src="orderstatus.png" alt="Order Status Page" width="80%">
+    <h4>27. Delete Order Page</h4>
+    <img src="deleteorder.png" alt="Delte Order Page" width="80%">
+    <h4>28. User Details Page</h4>
+    <img src="orderdetails.png" alt="User details Page" width="80%">
+    <h4>29. Edit User Page</h4>
+    <img src="edituser.png" alt="Edit User Page" width="80%">
+    <h4>30. Delete User Page</h4>
+    <img src="deleteuser.png" alt="Delete User Page" width="80%">
+    <h4>31. Add Admin Page</h4>
+    <img src="addadmin.png" alt="Add Admin Page" width="80%">
+    <h4>32. Admin Details Page</h4>
+    <img src="admindetails.png" alt="Admin Details Page" width="80%">
+    <h4>33. Update Admin Page</h4>
+    <img src="updateadmin.png" alt="Update Admin Info Page" width="80%">
+    <h4>34. Delete Admin Page</h4>
+    <img src="deleteadmin.png" alt="Delte Admin Page" width="80%">
+    <h4>35. Admin Profile Page</h4>
+    <img src="adminprofile.png" alt="Admin Profile Page" width="80%">
+    <h4>36. Admin Logout Page</h4>
+    <img src="adminlogout.png" alt="Admin Logout Page" width="80%">
+<hr>
+<h3 align="center">🎉 Happy Shopping! 🚀</h3> 
+<p align="center">Thank you for checking out this project! If you found it helpful, <b>give it a star ⭐ on GitHub! </b> 😊</p>
 
 
