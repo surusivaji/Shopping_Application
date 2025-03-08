@@ -84,7 +84,7 @@ mvn spring-boot:run
 - **Admin Panel:** `http://localhost:8080/admin`
 
 ## 🖼️ Screenshots
-<p>Below are sample screenshots showcasing the ENotes Application:</p>
+<p>Below are sample screenshots showcasing the Shopping Application:</p>
 <div>
   <h4>1. Index Page</h4>
   <img src="index.png" alt="Index Page" width="80%">
