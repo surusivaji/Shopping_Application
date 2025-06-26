@@ -51,14 +51,6 @@ public class AdminController {
 	@Autowired
 	private IProductOrderService productOrderService;
 	
-	@ModelAttribute
-	public void commonData(Model model, HttpSession session) {
-		Admin admin = (Admin) session.getAttribute("admin");
-		if (admin!=null) {
-			model.addAttribute("admin", admin);
-		}
-	}
-	
 	@PostMapping("/getAdminInfo")
 	public String adminLogin(HttpSession session, @RequestParam("email") String email, @RequestParam("password") String password) {
 		Admin admin = adminService.getAdminByEmailAndPassword(email, password);
