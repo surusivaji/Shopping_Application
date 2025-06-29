@@ -513,7 +513,7 @@ public class AdminController {
 					return "redirect:/admin/addAdmin";
 				}
 				else {
-					session.setAttribute("failMsg", "Something went wrong while saving the admin");
+					session.setAttribute("failMsg", "Email or mobile number already exists");
 					return "redirect:/admin/addAdmin";
 				}
 			}
@@ -588,7 +588,7 @@ public class AdminController {
 					return "redirect:/admin/admins";
 				}
 				else {
-					session.setAttribute("failMsg", "something went wrong while saving the admin information");
+					session.setAttribute("failMsg", "Email or mobile number already exists");
 					return "redirect:/admin/updateAdmin"+admin.getId();
 				}
 			}
@@ -679,7 +679,7 @@ public class AdminController {
 					return "redirect:/admin/users";
 				}
 				else {
-					session.setAttribute("failMsg", "user inforamtion can not be updated");
+					session.setAttribute("failMsg", "email or mobile number already exists");
 					return "redirect:/admin/edituser/"+user.getId();
 				}
 			}

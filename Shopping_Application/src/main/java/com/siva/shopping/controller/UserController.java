@@ -79,11 +79,11 @@ public class UserController {
 				return "redirect:/signup";
 			} 
 			else {
-				session.setAttribute("failMsg", "Something went wrong");
+				session.setAttribute("failMsg", "Email or mobile number already exists");
 				return "redirect:/signup";
 			}
 		} catch (Exception e) {
-			session.setAttribute("failMsg", "something went wrong");
+			session.setAttribute("failMsg", "Image location not found");
 			System.out.println(e.getMessage());
 			return "redirect:/signup";
 		}
@@ -224,7 +224,7 @@ public class UserController {
 			if (carts.size()>0) {
 				Double orderPrice = carts.get(carts.size()-1).getTotalOrderPrice();
 				model.addAttribute("orderPrice", orderPrice);
-				Double totalOrderPrice = carts.get(carts.size()-1).getTotalOrderPrice()+250+100;
+				Double totalOrderPrice = carts.get(carts.size()-1).getTotalOrderPrice()+50+50;
 				model.addAttribute("totalOrderPrice", totalOrderPrice);
 			}
 			return "User/Order";
@@ -349,11 +349,11 @@ public class UserController {
 				User saveUser = userService.saveUser(user);
 				if (saveUser!=null) {
 					session.setAttribute("user", saveUser);
-					session.setAttribute("successMsg", "user inforamtion updated");
+					session.setAttribute("successMsg", "User inforamtion updated");
 					return "redirect:/user/profile";
 				}
 				else {
-					session.setAttribute("failMsg", "something went wrong");
+					session.setAttribute("failMsg", "Email and mobile number exists");
 					return "redirect:/user/profile";
 				}
 			}

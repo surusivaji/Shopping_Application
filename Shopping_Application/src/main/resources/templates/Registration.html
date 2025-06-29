@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Base::layout(~{::section})">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{Base::layout(~{::section})}">
 <head>
 	<meta charset="UTF-8" />
 	<title>E-Shopping</title>
@@ -27,7 +27,7 @@
 								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
 							</div>
 							<!--  alert message ends -->
-							<form th:action="@{/saveUserInformation}" method="post" enctype="multipart/form-data">
+							<form th:action="@{/saveUserInformation}" method="post" id="myForm" enctype="multipart/form-data">
 								<div class="row mb-2">
 									<div class="col-md-6">
 										<label for="fullName">Full Name</label>
@@ -88,6 +88,7 @@
 				</div>
 			</div>
 		</div>
+		<script th:src="@{/javascript/Register.js}"></script>
 	</section>
 </body>
 </html>
