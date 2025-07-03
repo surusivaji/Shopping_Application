@@ -16,10 +16,12 @@ import com.siva.shopping.model.Cart;
 import com.siva.shopping.model.OrderAddress;
 import com.siva.shopping.model.OrderRequest;
 import com.siva.shopping.model.OrderStatus;
+import com.siva.shopping.model.Product;
 import com.siva.shopping.model.ProductOrder;
 import com.siva.shopping.model.User;
 import com.siva.shopping.repository.CartRepository;
 import com.siva.shopping.repository.ProductOrderRepository;
+import com.siva.shopping.repository.ProductRepository;
 
 @Service
 public class IProductOrderServiceImpl implements IProductOrderService {
@@ -29,6 +31,9 @@ public class IProductOrderServiceImpl implements IProductOrderService {
 	
 	@Autowired
 	private CartRepository cartRepository;
+	
+	@Autowired
+	private ProductRepository productRepository;
 
 	@Override
 	public Boolean saveProductOrder(User user, OrderRequest orderRequest) {
@@ -63,9 +68,16 @@ public class IProductOrderServiceImpl implements IProductOrderService {
 				ProductOrder save = productOrderRepository.save(productOrder);
 				if (save!=null) {
 					isSaved = true;
+					Product product = cart.getProduct();
+					product.setStock(product.getStock()-save.getQuantity());
+					Product isUpdated = productRepository.save(product);
+					if (isUpdated==null) {
+						isSaved = false;
+					}
 				}
 			}
 			if (isSaved) {
+				cartRepository.deleteAll(cartList);
 				return true;
 			}
 			else {
@@ -90,9 +102,24 @@ public class IProductOrderServiceImpl implements IProductOrderService {
 	public Boolean updateOrderStatus(Integer orderId, String status) {
 		try {
 			ProductOrder productOrder = productOrderRepository.findById(orderId).get();
+			boolean isSave = false;
+			if (status.equalsIgnoreCase("Cancelled")) {
+				Product product = productOrder.getProduct();
+				product.setStock(productOrder.getQuantity()+product.getStock());
+				Product save = productRepository.save(product);
+				if (save!=null) {
+					isSave = true;
+				} 
+				else {
+					isSave = false;
+				}
+			}
+			else {
+				isSave = true;
+			}
 			productOrder.setStatus(status);
 			ProductOrder save = productOrderRepository.save(productOrder);
-			if (save!=null) {
+			if (save!=null && isSave) {
 				return true;
 			}
 			else {

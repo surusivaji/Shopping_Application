@@ -103,6 +103,9 @@
 											</form>
 										</td>
 									</tr>
+									<tr th:if="${orders.size()==0}">
+										<td colspan="8" align="center" class="text-danger fw-bold fs-5">Orders are not present</td>
+									</tr>
 								</th:block>
 								<th:block th:if="${search==true}">
 									<th:block th:if=${productOrder!=null}>
@@ -172,7 +175,7 @@
 								</th:block>
 							</table>
 							<!-- paggination -->
-							<th:block th:if="${search==false}">
+							<th:block th:if="${search==false && orders.size()!=0}">
 								<div class="d-flex justify-content-center mt-2">
 									<nav aria-label="Page navigation example">
 										<ul class="pagination">

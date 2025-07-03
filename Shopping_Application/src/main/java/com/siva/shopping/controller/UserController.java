@@ -240,13 +240,24 @@ public class UserController {
 		if (user!=null) {
 			Boolean saveProductOrder = productOrderService.saveProductOrder(user, orderRequest);
 			if (saveProductOrder) {
-				model.addAttribute("user", user);
-				return "User/Success";
+				return "redirect:/user/orderSuccess";
 			}
 			else {
 				session.setAttribute("successMsg", "something went wrong");
 				return "redirect:/user/order";
 			}
+		}
+		else {
+			return "redirect:/signin";
+		}
+	}
+	
+	@GetMapping("/user/orderSuccess")
+	public String orderSuccessPage(HttpSession session, Model model) {
+		User user = (User) session.getAttribute("user");
+		if (user!=null) {
+			model.addAttribute("user", user);
+			return "User/Success";
 		}
 		else {
 			return "redirect:/signin";
