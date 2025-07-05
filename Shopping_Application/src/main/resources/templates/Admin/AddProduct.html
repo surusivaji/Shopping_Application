@@ -30,7 +30,7 @@
 							</div>
 							<!-- alert messages ends -->
 						
-							<form th:action="@{/admin/saveProductInformation}" method="post" enctype="multipart/form-data">
+							<form th:action="@{/admin/saveProductInformation}" method="post" id="myForm" enctype="multipart/form-data">
 								<div class="form-group mb-3">
 									<label for="title">Enter Title</label>
 									<input type="text" class="form-control" name="title" id="title" autocomplete="off" required="required" />
@@ -42,7 +42,7 @@
 								<div class="form-group mb-3">
 									<label for="category">Enter Category</label>
 									<select class="form-select" aria-label="Default select example" name="category" id="category" required="required">
-									  <option selected>-- select --</option>
+									  <option value="">-- select --</option>
 									  <option th:each="category:${categories}" th:value=${category.name} th:text="${category.name}"></option>
 									</select>
 								</div>
@@ -53,14 +53,14 @@
 								<div class="form-group mb-3">
 									<label for="status">Status</label>
 								 	<div class="form-check">
-									  <input class="form-check-input" type="radio" name="isActive" id="flexRadioDefault1" value="true">
-									  <label class="form-check-label" for="flexRadioDefault1">
+									  <input class="form-check-input" type="radio" name="isActive" id="isActive" value="true">
+									  <label class="form-check-label" for="isActive">
 									    isActive
 									  </label>
 									</div>
 									<div class="form-check">
-									  <input class="form-check-input" type="radio" name="isActive" id="flexRadioDefault2" value="false">
-									  <label class="form-check-label" for="flexRadioDefault2">
+									  <input class="form-check-input" type="radio" name="isActive" id="inActive" value="false">
+									  <label class="form-check-label" for="inActive">
 									    inActive
 									  </label>
 									</div>
@@ -84,6 +84,7 @@
 				</div>
 			</div>
 		</div>
+		<script th:src="@{/javascript/AddProduct.js}"></script>
 	</section>
 </body>
 </html>
