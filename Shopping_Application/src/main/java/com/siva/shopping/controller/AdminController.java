@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +35,7 @@ import com.siva.shopping.service.IUserService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
 	
 	@Autowired
@@ -64,7 +66,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/home") 
+	@GetMapping("/home") 
 	public String adminHomePage(HttpSession session) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -75,7 +77,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/addproduct")
+	@GetMapping("/addproduct")
 	public String addProductPage(HttpSession session, Model model) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -88,7 +90,7 @@ public class AdminController {
 		}
 	}
 	
-	@PostMapping("/admin/saveProductInformation")
+	@PostMapping("/saveProductInformation")
 	public String saveProductInformation(HttpSession session, @ModelAttribute Product product, @RequestParam("productImage") MultipartFile multipartFile) {
 		try {
 			Admin admin = (Admin) session.getAttribute("admin");
@@ -124,7 +126,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/products")
+	@GetMapping("/products")
 	public String productsPage(HttpSession session, Model model, @RequestParam(defaultValue = "0") int pageNo) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -144,7 +146,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/deleteproduct/{id}")
+	@GetMapping("/deleteproduct/{id}")
 	public String deleteProduct(HttpSession session, @PathVariable("id") int id) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -169,7 +171,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/editproduct/{id}")
+	@GetMapping("/editproduct/{id}")
 	public String editProduct(HttpSession session, @PathVariable("id") int id, Model model) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -190,7 +192,7 @@ public class AdminController {
 		}
 	}
 	
-	@PostMapping("/admin/updateproductInformation")
+	@PostMapping("/updateproductInformation")
 	public String updateProductInformation(HttpSession session, @ModelAttribute Product product,Model model, @RequestParam("productImage") MultipartFile multipartFile) {
 		try {
 			Admin admin = (Admin) session.getAttribute("admin");
@@ -231,7 +233,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/categories")
+	@GetMapping("/categories")
 	public String displayCateoriesPage(HttpSession session,@RequestParam(defaultValue = "0") int pageNo, Model model) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -251,7 +253,7 @@ public class AdminController {
 		}
 	}
 	
-	@PostMapping("/admin/saveCategoryInformation")
+	@PostMapping("/saveCategoryInformation")
 	public String storeCategoryInformation(HttpSession session, @ModelAttribute Category category, @RequestParam("uploadImage") MultipartFile uploadImage) {
 		try {
 			Admin admin = (Admin) session.getAttribute("admin");
@@ -291,7 +293,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/editcategory/{id}")
+	@GetMapping("/editcategory/{id}")
 	public String editCategory(@PathVariable("id") int id, HttpSession session, Model model) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -310,7 +312,7 @@ public class AdminController {
 		}
 	}
 	
-	@PostMapping("/admin/updateCategoryInformation")
+	@PostMapping("/updateCategoryInformation")
 	public String updateCategoryInformation(@ModelAttribute Category category, HttpSession session, @RequestParam("uploadImage")MultipartFile multipartFile) {
 		try {
 			Admin admin = (Admin) session.getAttribute("admin");
@@ -344,7 +346,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/deletecategory/{id}")
+	@GetMapping("/deletecategory/{id}")
 	public String deleteCategory(HttpSession session, @PathVariable("id") int id) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -369,7 +371,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/users")
+	@GetMapping("/users")
 	public String getAllUsers(HttpSession session, @RequestParam(defaultValue = "0") int pageNo, Model model) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -389,7 +391,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/orders")
+	@GetMapping("/orders")
 	public String getAllOrders(HttpSession session, @RequestParam(defaultValue="0") int pageNo, Model model) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -410,7 +412,7 @@ public class AdminController {
 		}
 	}
 	
-	@PostMapping("/admin/update-order-status")
+	@PostMapping("/update-order-status")
 	public String updateOrderStatus(HttpSession session, @RequestParam("id") Integer id, @RequestParam("status") Integer status) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -436,7 +438,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/deleteOrder/{id}")
+	@GetMapping("/deleteOrder/{id}")
 	public String removeOrder(HttpSession session, @PathVariable("id") Integer Id) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -462,7 +464,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/search-order")
+	@GetMapping("/search-order")
 	public String searchOrder(HttpSession session, @RequestParam("orderId") String orderId, Model model) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -482,7 +484,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/addAdmin")
+	@GetMapping("/addAdmin")
 	public String addAdmin(HttpSession session) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -493,41 +495,53 @@ public class AdminController {
 		}
 	}
 	
-	@PostMapping("/admin/saveAdminInformation")
+	@PostMapping("/saveAdminInformation")
 	public String saveAdminInformation(HttpSession session, @ModelAttribute Admin admin,  @RequestParam("image") MultipartFile multipartFile) {
 		try {	
 			Admin adminInfo = (Admin) session.getAttribute("admin");
 			if (adminInfo!=null) {
-				if (multipartFile.isEmpty()) {
-					admin.setProfileImage("user.png");
+				Boolean emailStatus = adminService.checkEmailIsPresentOrNot(admin.getEmail());
+				Boolean mobileNumberStatus = adminService.checkMobileNumberIsPresentOrNot(admin.getMobileNumber());
+				if (emailStatus && mobileNumberStatus) {
+					session.setAttribute("warningMsg", "Email and Mobile Number are already exists");
 				}
-				else {
-					File file = new ClassPathResource("/static/images").getFile();
-					Path path = Paths.get(file.getAbsolutePath()+File.separator+"users"+File.separator+multipartFile.getOriginalFilename());
-					Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-					admin.setProfileImage(multipartFile.getOriginalFilename());
+				else if (emailStatus) {
+					session.setAttribute("warningMsg", "Email already exists");
 				}
-				Admin saveAdmin = adminService.saveAdmin(admin);
-				if (saveAdmin!=null) {
-					session.setAttribute("successMsg", "Admin added successfully");
-					return "redirect:/admin/addAdmin";
+				else if (mobileNumberStatus) {
+					session.setAttribute("warningMsg", "Mobile number already exists");
 				}
-				else {
-					session.setAttribute("failMsg", "Email or mobile number already exists");
-					return "redirect:/admin/addAdmin";
+				else {		
+					if (multipartFile.isEmpty()) {
+						admin.setProfileImage("user.png");
+					}
+					else {
+						File file = new ClassPathResource("/static/images").getFile();
+						Path path = Paths.get(file.getAbsolutePath()+File.separator+"users"+File.separator+multipartFile.getOriginalFilename());
+						Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+						admin.setProfileImage(multipartFile.getOriginalFilename());
+					}
+					Admin saveAdmin = adminService.saveAdmin(admin);
+					if (saveAdmin!=null) {
+						session.setAttribute("successMsg", "Admin added successfully");
+					}
+					else {
+						session.setAttribute("failMsg", "Something went wrong");
+					}
 				}
+				return "redirect:/admin/addAdmin";
 			}
 			else {
 				return "redirect:/admin";
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			session.setAttribute("failMsg", "Something happend in the while uploading the image");
+			session.setAttribute("warningMsg", "Image location not found");
 			return "redirect:/addAdmin";
 		}
 	}
 	
-	@GetMapping("/admin/admins")
+	@GetMapping("/admins")
 	public String showAdminDetails(HttpSession session, @RequestParam(defaultValue = "0") int pageNo, Model model) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -547,7 +561,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/updateAdmin/{id}")
+	@GetMapping("/updateAdmin/{id}")
 	public String updateAdminInformation(HttpSession session, @PathVariable("id") Integer id, Model model) {
 		Admin adminInfo = (Admin) session.getAttribute("admin");
 		if (adminInfo!=null) {
@@ -566,7 +580,7 @@ public class AdminController {
 		}
 	}
 	
-	@PostMapping("/admin/updateAdminInformation")
+	@PostMapping("/updateAdminInformation")
 	public String updateAdminInfomration(HttpSession session, @ModelAttribute Admin admin, @RequestParam("image") MultipartFile multipartFile) {
 		try {
 			Admin adminInfo = (Admin) session.getAttribute("admin");
@@ -602,7 +616,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/deleteAdmin/{id}")
+	@GetMapping("/deleteAdmin/{id}")
 	public String deleteAdmin(HttpSession session, @PathVariable("id") Integer id) {
 		Admin adminInfo = (Admin) session.getAttribute("admin");
 		if (adminInfo!=null) {
@@ -627,7 +641,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/profile") 
+	@GetMapping("/profile") 
 	public String adminProfile(HttpSession session, Model model) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -639,7 +653,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/edituser/{id}")
+	@GetMapping("/edituser/{id}")
 	public String editUser(HttpSession session, Model model, @PathVariable("id") Integer id) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -658,7 +672,7 @@ public class AdminController {
 		}
 	}
 	
-	@PostMapping("/admin/updateUserInformation")
+	@PostMapping("/updateUserInformation")
 	public String updateUserInformation(HttpSession session, @ModelAttribute User user, @RequestParam("image")MultipartFile multipartFile) {
 		try {	
 			Admin admin = (Admin) session.getAttribute("admin");
@@ -693,7 +707,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/deleteUser/{id}")
+	@GetMapping("/deleteUser/{id}")
 	public String deleteUser(HttpSession session, @PathVariable("id") Integer id) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -718,7 +732,7 @@ public class AdminController {
 		}
 	}
 	
-	@PostMapping("/admin/changepassword")
+	@PostMapping("/changepassword")
 	public String changePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, HttpSession session) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {
@@ -744,7 +758,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("/admin/logout")
+	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin!=null) {

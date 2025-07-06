@@ -6,6 +6,10 @@ import com.siva.shopping.model.User;
 
 public interface IUserService {
 	
+	Boolean existsByEmail(String email);
+	
+	Boolean existsByMobileNumber(String mobileNumber);
+	
 	User saveUser(User user);
 	
 	User getUserByEmailAndPassword(String email, String password);

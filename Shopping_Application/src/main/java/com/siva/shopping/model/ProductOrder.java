@@ -23,7 +23,7 @@ public class ProductOrder {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String orderId;
 	private Date orderDate;
 	@ManyToOne

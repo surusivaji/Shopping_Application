@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -81,13 +82,16 @@ public class IProductServiceImpl implements IProductService {
 	}
 	
 	@Override
-	public List<Product> getProductsByCategory(String category) {
+	public Page<Product> getProductsByCategory(String category, int pageNo) {
 		try {
+			Pageable pageable = PageRequest.of(pageNo, 16, Sort.by(Sort.Direction.DESC, "id"));
 			if (ObjectUtils.isEmpty(category)) {
-				return productRepository.findByIsActiveTrue();
+				Page<Product> page = productRepository.findByIsActiveTrue(pageable);
+				return page;
 			}
 			else {
-				return productRepository.findByCategory(category);
+				Page<Product> page = productRepository.findByCategoryAndIsActiveTrue(category, pageable);
+				return page;
 			}
 		} catch (Exception e) {
 			return null;
@@ -97,11 +101,36 @@ public class IProductServiceImpl implements IProductService {
 	@Override
 	public List<Product> searchProducts(String ch) {
 		try {
-			List<Product> products = productRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCase(ch, ch);
+			List<Product> products = productRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCaseAndIsActiveTrue(ch, ch);
 			return products;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
+	
+	@Override
+	public Page<Product> getActiveProducts(int pageNo) {
+		try {
+			Pageable pageable = PageRequest.of(pageNo, 16, Sort.by(Sort.Direction.DESC, "id"));
+			Page<Product> page = productRepository.findByIsActiveTrue(pageable);
+			return page;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public List<Product> getProductsByCategory(String category) {
+		try {
+			if (ObjectUtils.isEmpty(category)) {
+				return productRepository.findByIsActiveTrue();
+			}
+			else {
+				return productRepository.findByCategoryAndIsActiveTrue(category);
+			}
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
 }

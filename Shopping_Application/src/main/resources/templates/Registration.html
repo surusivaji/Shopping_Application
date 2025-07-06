@@ -19,15 +19,19 @@
 						<div class="card-body">
 							<!-- alert message starts -->
 							<div class="alert alert-success" th:if="${session.successMsg}">
-								<p class="text-center fw-bold">[[${session.successMsg}]]</p>
+								<p class="text-center fw-bold">[[${session.successMsg}]] 😊😊😊</p>
 								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
 							</div>
 							<div class="alert alert-danger" th:if="${session.failMsg}">
-								<div class="text-center fw-bold">[[${session.failMsg}]]</div>
+								<div class="text-center fw-bold">[[${session.failMsg}]] 😡😡😡</div>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<div class="alert alert-danger" th:if="${session.warningMsg}">
+								<div class="text-center fw-bold">[[${session.warningMsg}]] 🤦🤦🤦</div>
 								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
 							</div>
 							<!--  alert message ends -->
-							<form th:action="@{/saveUserInformation}" method="post" id="myForm" enctype="multipart/form-data">
+							<form th:action="@{/user/saveUserInformation}" method="post" id="myForm" enctype="multipart/form-data">
 								<div class="row mb-2">
 									<div class="col-md-6">
 										<label for="fullName">Full Name</label>

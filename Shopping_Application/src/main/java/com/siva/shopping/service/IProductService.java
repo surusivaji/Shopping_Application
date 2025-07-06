@@ -20,8 +20,12 @@ public interface IProductService {
 	
 	List<Product> activeProducts();
 	
-	List<Product> getProductsByCategory(String categroy);
+	Page<Product> getProductsByCategory(String categroy, int pageNo);
 	
 	List<Product> searchProducts(String ch);
+	
+	Page<Product> getActiveProducts(int pageNo);
+
+	List<Product> getProductsByCategory(String category);
 
 }

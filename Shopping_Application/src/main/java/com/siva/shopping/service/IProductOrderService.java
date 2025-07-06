@@ -12,7 +12,9 @@ public interface IProductOrderService {
 	
 	Boolean saveProductOrder(User user, OrderRequest orderRequest);
 	
-	List<ProductOrder> getProductOrdersByUser(User user); 
+	List<ProductOrder> getProductOrdersByUser(User user);
+	
+	Page<ProductOrder> getProductOrderByUser(User user, int pageNo);
 	
 	Boolean updateOrderStatus(Integer orderId, String status);
 	

@@ -18,6 +18,26 @@ public class IUserServiceImpl implements IUserService {
 	private UserRepository userRepository;
 	
 	@Override
+	public Boolean existsByEmail(String email) {
+		try {
+			Boolean emailStatus = userRepository.existsByEmail(email);
+			return emailStatus;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	@Override
+	public Boolean existsByMobileNumber(String mobileNumber) {
+		try {
+			Boolean mobileNumberStatus = userRepository.existsByMobileNumber(mobileNumber);
+			return mobileNumberStatus;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	@Override
 	public User saveUser(User user) {
 		try {
 			User save = userRepository.save(user);

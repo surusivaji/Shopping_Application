@@ -20,6 +20,26 @@ public class IAdminServiceImpl implements IAdminService {
 	private AdminRepository adminRepository;
 	
 	@Override
+	public Boolean checkEmailIsPresentOrNot(String email) {
+		try {
+			Boolean emailStatus = adminRepository.existsByEmail(email);
+			return emailStatus;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	@Override
+	public Boolean checkMobileNumberIsPresentOrNot(String mobileNumber) {
+		try {
+			Boolean mobileNumberStatus = adminRepository.existsByMobileNumber(mobileNumber);
+			return mobileNumberStatus;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	@Override
 	public Admin saveAdmin(Admin admin) {
 		try {
 			Admin save = adminRepository.save(admin);

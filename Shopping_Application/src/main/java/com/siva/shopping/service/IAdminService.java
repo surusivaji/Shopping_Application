@@ -6,6 +6,10 @@ import com.siva.shopping.model.Admin;
 
 public interface IAdminService {
 	
+	Boolean checkEmailIsPresentOrNot(String email);
+	
+	Boolean checkMobileNumberIsPresentOrNot(String mobileNumber);
+	
 	Admin saveAdmin(Admin admin);
 	
 	Page<Admin> getAllAdmins(int pageNo);

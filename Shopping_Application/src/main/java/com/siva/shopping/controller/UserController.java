@@ -5,16 +5,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +39,7 @@ import com.siva.shopping.service.IUserService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
@@ -56,6 +62,7 @@ public class UserController {
 		List<Category> categories = categoryService.activeCategories();
 		model.addAttribute("categories", categories);
 		User user = (User) session.getAttribute("user");
+		model.addAttribute("user", user);
 		Integer countCarts = cartService.countCartByUser(user);
 		model.addAttribute("countCarts", countCarts);
 	}
@@ -63,33 +70,44 @@ public class UserController {
 	@PostMapping("/saveUserInformation")
 	public String saveUserInformation(@ModelAttribute User user, HttpSession session, @RequestParam("image") MultipartFile multipartFile) {
 		try {
-			if (multipartFile.isEmpty()) {
-				session.setAttribute("failMsg", "please upload the profile");
-				return "redirect:/signup";
+			Boolean emailStatus = userService.existsByEmail(user.getEmail());
+			Boolean mobileNumberStatus = userService.existsByMobileNumber(user.getMobileNumber());
+			if (emailStatus && mobileNumberStatus) {
+				session.setAttribute("warningMsg", "Email and mobile number already exists");
 			}
-			else {
-				File file = new ClassPathResource("static/images").getFile();
-				Path path = Paths.get(file.getAbsolutePath()+File.separator+"users"+File.separator+multipartFile.getOriginalFilename());
-				Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-				user.setProfileImage(multipartFile.getOriginalFilename());
+			else if (emailStatus) {
+				session.setAttribute("warningMsg", "Email already exists");
 			}
-			User saved = userService.saveUser(user);
-			if (saved!=null) {
-				session.setAttribute("successMsg", "Regisration success");
-				return "redirect:/signup";
-			} 
-			else {
-				session.setAttribute("failMsg", "Email or mobile number already exists");
-				return "redirect:/signup";
+			else if (mobileNumberStatus) {
+				session.setAttribute("warningMsg", "Mobile number already exists");
 			}
+			else {		
+				if (multipartFile.isEmpty()) {
+					session.setAttribute("warningMsg", "please upload the profile");
+				}
+				else {
+					File file = new ClassPathResource("static/images").getFile();
+					Path path = Paths.get(file.getAbsolutePath()+File.separator+"users"+File.separator+multipartFile.getOriginalFilename());
+					Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+					user.setProfileImage(multipartFile.getOriginalFilename());
+					User saved = userService.saveUser(user);
+					if (saved!=null) {
+						session.setAttribute("successMsg", "Regisration success");
+					} 
+					else {
+						session.setAttribute("failMsg", "Something went wrong");
+					}
+				}
+			}
+			return "redirect:/signup";
 		} catch (Exception e) {
-			session.setAttribute("failMsg", "Image location not found");
+			session.setAttribute("warningMsg", "Image location not found");
 			System.out.println(e.getMessage());
 			return "redirect:/signup";
 		}
 	}
 
-	@PostMapping("/user/getUserData")
+	@PostMapping("/getUserData")
 	public String getUserData(HttpSession session, Model model, @RequestParam("email") String email, @RequestParam("password") String password) {
 		User user = userService.getUserByEmailAndPassword(email, password);
 		if (user!=null) {
@@ -102,11 +120,10 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/home")
+	@GetMapping("/home")
 	public String userHomePage(HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
-			model.addAttribute("user", user);
 			List<Category> activeCategories = categoryService.activeCategories().stream().sorted((c1, c2) -> c2.getId().compareTo(c1.getId())).limit(6).toList();
 			List<Product> activeProducts = productService.activeProducts().stream().sorted((p1, p2) -> p2.getId().compareTo(p1.getId())).limit(8).toList();
 			model.addAttribute("category",  activeCategories);
@@ -118,13 +135,15 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/products")
-	public String productsPage(HttpSession session, Model model, @RequestParam(value="category", defaultValue="") String category) {
+	@GetMapping("/products")
+	public String productsPage(HttpSession session, Model model, @RequestParam(value="category", defaultValue="") String category, @RequestParam(defaultValue="0") int pageNo) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
-			model.addAttribute("user", user);
-			List<Product> products = productService.getProductsByCategory(category);
-			model.addAttribute("products",products);
+			Page<Product> page = productService.getProductsByCategory(category, pageNo);
+			model.addAttribute("currentPage", pageNo);
+			model.addAttribute("totalPages", page.getTotalPages());
+			model.addAttribute("products", page.getContent());
+			model.addAttribute("isSearch", false);
 			model.addAttribute("paramValue", category);
 			return "User/Products";
 		}
@@ -133,14 +152,13 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/search")
+	@GetMapping("/search")
 	public String searchProduct(@RequestParam("ch") String ch, Model model, HttpSession session) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
-			model.addAttribute("user", user);
-			List<Product> searchProducts = productService.searchProducts(ch);
+			List<Product> searchProducts = productService.searchProducts(ch).stream().sorted((p1, p2) -> p2.getId().compareTo(p1.getId())).collect(Collectors.toList());
+			model.addAttribute("isSearch", true);
 			model.addAttribute("products",searchProducts);
-			System.out.println(searchProducts);
 			return "User/Products";
 		} 
 		else {
@@ -148,11 +166,10 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/product/{id}")
+	@GetMapping("/product/{id}")
 	public String getProductInformation(HttpSession session, Model model, @PathVariable("id") int id) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
-			model.addAttribute("user", user);
 			Product product = productService.getProductById(id);
 			model.addAttribute("product", product);
 			return "User/ViewProduct";
@@ -162,11 +179,10 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/addCart")
-	public String addToCartPage(HttpSession session, Model model, @RequestParam("pid") Integer pid, @RequestParam("uid") Integer uid) {
+	@GetMapping("/addCart")
+	public String addToCartPage(HttpSession session, @RequestParam("pid") Integer pid, @RequestParam("uid") Integer uid) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
-			model.addAttribute("user", user);
 			Cart saveCart = cartService.saveCart(uid, pid);
 			if (saveCart!=null) {
 				session.setAttribute("successMsg", "product added to cart");
@@ -182,11 +198,10 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/cart")
+	@GetMapping("/cart")
 	public String viewCartPage(HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
-			model.addAttribute("user", user);
 			List<Cart> carts = cartService.getCartByUser(user);
 			if (carts.size()>0) {				
 				Double totalOrderPrice = carts.get(carts.size()-1).getTotalOrderPrice();
@@ -200,7 +215,7 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/cartQuantityUpdate")
+	@GetMapping("/cartQuantityUpdate")
 	public String updateCartQuantity(HttpSession session, @RequestParam("status")String status, @RequestParam("cid") Integer cid) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
@@ -215,11 +230,10 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/order")
+	@GetMapping("/order")
 	public String OrdeerPage(HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
-			model.addAttribute("user", user);
 			List<Cart> carts = cartService.getCartByUser(user);
 			if (carts.size()>0) {
 				Double orderPrice = carts.get(carts.size()-1).getTotalOrderPrice();
@@ -234,7 +248,7 @@ public class UserController {
 		}
 	}
 	
-	@PostMapping("/user/orderStatus")
+	@PostMapping("/orderStatus")
 	public String orderStatusPage(HttpSession session, Model model, @ModelAttribute OrderRequest orderRequest) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
@@ -252,11 +266,10 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/orderSuccess")
-	public String orderSuccessPage(HttpSession session, Model model) {
+	@GetMapping("/orderSuccess")
+	public String orderSuccessPage(HttpSession session) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
-			model.addAttribute("user", user);
 			return "User/Success";
 		}
 		else {
@@ -264,13 +277,14 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/myOrders")
-	public String yourOrders(HttpSession session, Model model) {
+	@GetMapping("/myOrders")
+	public String yourOrders(HttpSession session, Model model, @RequestParam(defaultValue="0") int pageNo) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
-			model.addAttribute("user", user);
-			List<ProductOrder> productOrders = productOrderService.getProductOrdersByUser(user);
-			model.addAttribute("productOrders", productOrders);
+			Page<ProductOrder> page = productOrderService.getProductOrderByUser(user, pageNo);
+			model.addAttribute("currentPage", pageNo);
+			model.addAttribute("totalPages", page.getTotalPages());
+			model.addAttribute("productOrders", page.getContent());
 			return "User/MyOrders";
 		}
 		else {
@@ -278,7 +292,7 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/updatestatus")
+	@GetMapping("/updatestatus")
 	public String updateStatus(HttpSession session, Model model, @RequestParam("status") Integer st, @RequestParam("orderId") Integer orderId) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
@@ -303,11 +317,10 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/deleteOrder/{id}")
-	public String deleteProductOrder(HttpSession session, Model model, @PathVariable("id") Integer id) {
+	@GetMapping("/deleteOrder/{id}")
+	public String deleteProductOrder(HttpSession session, @PathVariable("id") Integer id) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
-			model.addAttribute("user", user);
 			ProductOrder productOrder = productOrderService.getProductOrderByOrderId(id);
 			if (productOrder!=null) {
 				Boolean isDelete = productOrderService.deleteProductOrder(productOrder);
@@ -330,7 +343,7 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/profile")
+	@GetMapping("/profile")
 	public String profilePage(HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
@@ -342,12 +355,11 @@ public class UserController {
 		}
 	}
 	
-	@PostMapping("/user/updateUserInformation")
+	@PostMapping("/updateUserInformation")
 	public String updateUserInformation(HttpSession session, Model model, @ModelAttribute User user, @RequestParam("image") MultipartFile multipartFile) {
 		try {
 			User oldUser = (User) session.getAttribute("user");
 			if (oldUser!=null) {
-				model.addAttribute("user", oldUser);
 				if (!multipartFile.isEmpty()) {
 					File file = new ClassPathResource("/static/images").getFile();
 					Path path = Paths.get(file.getAbsolutePath()+File.separator+"users"+File.separator+multipartFile.getOriginalFilename());
@@ -364,7 +376,7 @@ public class UserController {
 					return "redirect:/user/profile";
 				}
 				else {
-					session.setAttribute("failMsg", "Email and mobile number exists");
+					session.setAttribute("failMsg", "Email or mobile number exists");
 					return "redirect:/user/profile";
 				}
 			}
@@ -378,7 +390,7 @@ public class UserController {
 		}
 	}
 	  
-	@GetMapping("/user/logout")
+	@GetMapping("/logout")
 	public String logout(HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {

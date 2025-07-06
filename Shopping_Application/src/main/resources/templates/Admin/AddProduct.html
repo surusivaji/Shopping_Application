@@ -33,22 +33,22 @@
 							<form th:action="@{/admin/saveProductInformation}" method="post" id="myForm" enctype="multipart/form-data">
 								<div class="form-group mb-3">
 									<label for="title">Enter Title</label>
-									<input type="text" class="form-control" name="title" id="title" autocomplete="off" required="required" />
+									<input type="text" class="form-control" name="title" id="title" autocomplete="off" />
 								</div>
 								<div class="form-group mb-3">
 									<label for="description">Enter Description</label>
-									<textarea rows="3" cols="" class="form-control" name="description" id="description" autocomplete="off" required="required"></textarea>
+									<textarea rows="3" cols="" class="form-control" name="description" id="description" autocomplete="off"></textarea>
 								</div> 
 								<div class="form-group mb-3">
 									<label for="category">Enter Category</label>
-									<select class="form-select" aria-label="Default select example" name="category" id="category" required="required">
+									<select class="form-select" aria-label="Default select example" name="category" id="category" >
 									  <option value="">-- select --</option>
 									  <option th:each="category:${categories}" th:value=${category.name} th:text="${category.name}"></option>
 									</select>
 								</div>
 								<div class="form-group mb-3">
 									<label for="price">Enter Price</label>
-									<input type="number" class="form-control" id="price" name="price" autocomplete="off" required="required"/>
+									<input type="number" class="form-control" id="price" name="price" autocomplete="off"/>
 								</div>
 								<div class="form-group mb-3">
 									<label for="status">Status</label>
@@ -68,11 +68,11 @@
 								<div class="row mb-3">
 									<div class="col-md-6">
 										<label for="stock">Enter Stock</label>
-										<input type="number" class="form-control" id="stock" name="stock" autocomplete="off" required="required" />
+										<input type="number" class="form-control" id="stock" name="stock" autocomplete="off"/>
 									</div>
 									<div class="col-md-6">
 										<label for="productImage">Upload Image</label>
-										<input type="file" class="form-control" id="productImage" name="productImage" autocomplete="off" required="required" />
+										<input type="file" class="form-control" id="productImage" name="productImage" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="form-group mb-2">

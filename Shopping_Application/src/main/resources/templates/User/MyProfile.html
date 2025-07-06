@@ -14,16 +14,20 @@
 							<h3 class="text-center fs-2 fw-bolder text-danger">Profile</h3>
 						</div>
 						<div class="card-body table-responsive">
-							<!-- alert message starts  -->
+								<!-- alert message starts -->
 							<div class="alert alert-success" th:if="${session.successMsg}">
-								<p class="text-center">[[${session.successMsg}]]</p>
+								<p class="text-center fw-bold">[[${session.successMsg}]] 😊😊😊</p>
 								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
 							</div>
 							<div class="alert alert-danger" th:if="${session.failMsg}">
-								<p class="text-center">[[${session.failMsg}]]</p>
+								<div class="text-center fw-bold">[[${session.failMsg}]] 😡😡😡</div>
 								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
 							</div>
-							<!-- alert message ends  -->
+							<div class="alert alert-danger" th:if="${session.warningMsg}">
+								<div class="text-center fw-bold">[[${session.warningMsg}]] 🤦🤦🤦</div>
+								<th:block th:text="${@IAdminServiceImpl.removeSessionMessage()}"></th:block>
+							</div>
+							<!--  alert message ends -->
 							<div class="mb-2 d-flex justify-content-center">
 								<img th:src="@{'/images/users/'+${user.profileImage}}" class="profileImage text-center img-fluid img-thumbnail" alt="" />
 							</div>

@@ -1,8 +1,10 @@
 package com.siva.shopping.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,9 +60,12 @@ public class HomeController {
 	}
 	
 	@GetMapping("/products")
-	public String productPage(Model model, @RequestParam(defaultValue="", value="category") String category) {
-		List<Product> products = productService.getProductsByCategory(category);
-		model.addAttribute("products",products);
+	public String productPage(Model model, @RequestParam(defaultValue="", value="category") String category, @RequestParam(defaultValue="0") int pageNo) {
+		Page<Product> page = productService.getProductsByCategory(category, pageNo);
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("products", page.getContent());
+		model.addAttribute("isSearch", false);
 		model.addAttribute("paramValue", category);
 		return "Product";
 	}
@@ -134,9 +139,9 @@ public class HomeController {
 	
 	@GetMapping("/search")
 	public String searchProduct(@RequestParam("ch") String ch, Model model) {
-		List<Product> searchProducts = productService.searchProducts(ch);
+		List<Product> searchProducts = productService.searchProducts(ch).stream().sorted((p1, p2) -> p2.getId().compareTo(p1.getId())).collect(Collectors.toList());
+		model.addAttribute("isSearch", true);
 		model.addAttribute("products",searchProducts);
-		System.out.println(searchProducts);
 		return "Product";
 	}
 
