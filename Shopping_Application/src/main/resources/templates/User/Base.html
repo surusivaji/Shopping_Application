@@ -41,7 +41,7 @@
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-user-circle"></i> <span th:text="${user.fullname}"></span>
+                <i class="fa-solid fa-user-circle"></i> <span th:text="${session.user.fullname}"></span>
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" th:href="@{/user/profile}">My Profile</a></li>
@@ -49,9 +49,6 @@
                 <li><a class="dropdown-item" th:href="@{/user/logout}">Logout</a></li>
               </ul>
             </li>
-            <!--  <li class="nav-item">
-              <a class="nav-link active" aria-current="page" th:href="@{/user/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-            </li> -->
           </ul>
         </div>
       </div>

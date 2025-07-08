@@ -1,5 +1,6 @@
 package com.siva.shopping.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.siva.shopping.model.Cart;
+import com.siva.shopping.model.ProductOrder;
 import com.siva.shopping.model.User;
+import com.siva.shopping.repository.CartRepository;
+import com.siva.shopping.repository.ProductOrderRepository;
 import com.siva.shopping.repository.UserRepository;
 
 @Service
@@ -16,6 +21,12 @@ public class IUserServiceImpl implements IUserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CartRepository cartRepository;
+	
+	@Autowired
+	private ProductOrderRepository productOrderRepository;
 	
 	@Override
 	public Boolean existsByEmail(String email) {
@@ -87,6 +98,10 @@ public class IUserServiceImpl implements IUserService {
 	@Override
 	public Boolean deleteUser(User user) {
 		try {
+			List<Cart> carts = cartRepository.findByUser(user);
+			List<ProductOrder> productOrders = productOrderRepository.findByUser(user);
+			cartRepository.deleteAllInBatch(carts);
+			productOrderRepository.deleteAllInBatch(productOrders);
 			userRepository.delete(user);
 			return true;
 		}

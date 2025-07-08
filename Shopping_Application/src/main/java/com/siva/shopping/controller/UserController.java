@@ -57,16 +57,15 @@ public class UserController {
 	
 	@ModelAttribute
 	public void commonData(Model model, HttpSession session) {
+		User user = (User) session.getAttribute("user");			
 		List<Category> categories = categoryService.activeCategories();
 		model.addAttribute("categories", categories);
-		User user = (User) session.getAttribute("user");
-		model.addAttribute("user", user);
 		Integer countCarts = cartService.countCartByUser(user);
 		model.addAttribute("countCarts", countCarts);
 	}
 	
 	@PostMapping("/saveUserInformation")
-	public String saveUserInformation(@ModelAttribute User user, HttpSession session, @RequestParam("image") MultipartFile multipartFile) {
+	public String saveUserInformation(@ModelAttribute User user,HttpSession session, @RequestParam("image") MultipartFile multipartFile) {
 		try {
 			Boolean emailStatus = userService.existsByEmail(user.getEmail());
 			Boolean mobileNumberStatus = userService.existsByMobileNumber(user.getMobileNumber());
@@ -122,6 +121,7 @@ public class UserController {
 	public String userHomePage(HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
+			model.addAttribute("user", user);
 			List<Category> activeCategories = categoryService.activeCategories().stream().sorted((c1, c2) -> c2.getId().compareTo(c1.getId())).limit(6).toList();
 			List<Product> activeProducts = productService.activeProducts().stream().sorted((p1, p2) -> p2.getId().compareTo(p1.getId())).limit(8).toList();
 			model.addAttribute("category",  activeCategories);
@@ -168,6 +168,7 @@ public class UserController {
 	public String getProductInformation(HttpSession session, Model model, @PathVariable("id") int id) {
 		User user = (User) session.getAttribute("user");
 		if (user!=null) {
+			model.addAttribute("user", user);
 			Product product = productService.getProductById(id);
 			model.addAttribute("product", product);
 			return "User/ViewProduct";
