@@ -31,7 +31,7 @@ public class ICartServiceImpl implements ICartService {
 		try {
 			User user = userRepository.findById(uid).get();
 			Product product = productRepository.findById(pid).get();
-			Cart cart = cartRepository.findByUserIdAndProductId(uid, pid);
+			Cart cart = cartRepository.findByUserAndProduct(user, product);
 			Cart save = null;
 			if (ObjectUtils.isEmpty(cart)) {
 				save = new Cart();
