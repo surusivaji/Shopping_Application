@@ -98,10 +98,6 @@ public class IUserServiceImpl implements IUserService {
 	@Override
 	public Boolean deleteUser(User user) {
 		try {
-			List<Cart> carts = cartRepository.findByUser(user);
-			List<ProductOrder> productOrders = productOrderRepository.findByUser(user);
-			cartRepository.deleteAllInBatch(carts);
-			productOrderRepository.deleteAllInBatch(productOrders);
 			userRepository.delete(user);
 			return true;
 		}

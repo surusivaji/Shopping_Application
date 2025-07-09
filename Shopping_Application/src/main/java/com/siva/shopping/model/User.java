@@ -43,9 +43,5 @@ public class User {
 	private String password;
 	@Column(name="Profile_Image", nullable=false)
 	private String profileImage;
-	@OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
-	private List<Cart> carts = new ArrayList<>();
-	@OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
-	private List<ProductOrder> productOrders = new ArrayList<>();
 
 }
