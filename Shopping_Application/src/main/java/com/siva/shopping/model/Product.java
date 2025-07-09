@@ -44,7 +44,7 @@ public class Product {
 	private Double discountPrice;
 	@Column(name="Is_Active", nullable = false)
 	private Boolean isActive;
-	@OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+	@OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Cart> cartItems;
 	 @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	 private List<ProductOrder> orderItems;
