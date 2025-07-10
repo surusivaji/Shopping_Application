@@ -26,6 +26,6 @@ public interface IProductService {
 	
 	Page<Product> getActiveProducts(int pageNo);
 
-	List<Product> getProductsByCategory(String category);
-
+	 List<Product> getProductsByCategory(String category);
+	 
 }
